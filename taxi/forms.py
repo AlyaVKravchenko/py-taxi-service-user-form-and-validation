@@ -1,7 +1,15 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from .models import Driver, Car
 import re
+
+
+class DriverCreationForm(UserCreationForm):
+    class Meta:
+        model = Driver
+        fields = ["username", "first_name", "last_name",
+                  "license_number", "password1", "password2"]
 
 
 class DriverLicenseUpdateForm(forms.ModelForm):

@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Driver, Car, Manufacturer
-from .forms import DriverLicenseUpdateForm, CarForm
+from .forms import DriverLicenseUpdateForm, DriverCreationForm
 
 
 @login_required
@@ -100,12 +100,8 @@ class DriverDetailView(LoginRequiredMixin, generic.DetailView):
 
 class DriverCreateView(LoginRequiredMixin, generic.CreateView):
     model = Driver
-    fields = ["username", "first_name", "last_name", "license_number"]
+    form_class = DriverCreationForm
     success_url = reverse_lazy("taxi:driver-list")
-
-    def form_valid(self, form):
-        form.instance.set_password("defaultpassword")
-        return super().form_valid(form)
 
 
 class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
